@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    border: 2px solid red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+     height: 100vh;
+}
+
+.formData{
+    display: flex;
+    flex-direction: column;
+    border: 2px solid green;
+    width: 500px;
+    padding: 15px;
+}
