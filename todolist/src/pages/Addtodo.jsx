@@ -1,35 +1,79 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import './Addtodo.css'
-function AddTodo (){
 
-    return (
-        <>
+function AddTodo() {
 
-        <div className="container">
-         <h4>Add todo</h4>
-            <form className='formData' action="">
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    duedate: "",
+    priority: "low"
+  })
 
-             <label for="title">Title
-             <input type="text" id="title" name="title"/>
-             </label>
+  
 
-             <label for="description">Description
-            <textarea id="description" name="description"></textarea>
-           </label>
-             
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(formData)
+  }
 
-            <button type="button">Submit</button>
+  return (
+    <div className="container">
+      <h4>Add todo</h4>
 
+      <form onSubmit={handleSubmit} className='formData'>
 
-         </form>
+        <label htmlFor="title">
+          Title
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={(e)=> setFormData()}
+          />
+        </label>
 
+        <label htmlFor="description">
+          Description
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
+        </label>
 
-        </div>
-        
-        
-        </>
-    )
+        <label htmlFor="duedate">
+          Due Date
+          <input
+            type="date"
+            id="duedate"
+            name="duedate"
+            value={formData.duedate}
+            onChange={handleChange}
+          />
+        </label>
 
+        <label htmlFor="priority">
+          Priority
+          <select
+            id="priority"
+            name="priority"
+            value={formData.priority}
+            onChange={handleChange}
+          >
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+
+        <button type="submit">Submit</button>
+
+      </form>
+    </div>
+  )
 }
 
 export default AddTodo
