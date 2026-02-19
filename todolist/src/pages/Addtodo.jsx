@@ -10,7 +10,14 @@ function AddTodo() {
     priority: "low"
   })
 
-  
+  const handleChange = (e) => {
+    const { name, value } = e.target
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }))
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -21,7 +28,7 @@ function AddTodo() {
     <div className="container">
       <h4>Add todo</h4>
 
-      <form onSubmit={handleSubmit} className='formData'>
+      <form onSubmit={handleSubmit} className="formData">
 
         <label htmlFor="title">
           Title
@@ -30,7 +37,7 @@ function AddTodo() {
             id="title"
             name="title"
             value={formData.title}
-            onChange={(e)=> setFormData()}
+            onChange={handleChange}
           />
         </label>
 
