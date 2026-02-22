@@ -1,158 +1,136 @@
-import { useState } from 'react'
-import './Addtodo.css'
-
-// const tasks = [
-//   {
-//     id: 1,
-//     title: "Quant Practice",
-//     description: "Maths, English, Reasoning",
-//     priority: "Low"
-//   },
-//   {
-//     id: 2,
-//     title: "DSA Practice",
-//     description: "Solve 3 array problems and 2 string problems",
-//     priority: "High"
-//   },
-//   {
-//     id: 3,
-//     title: "React Revision",
-//     description: "Revise useState, useEffect and build small project",
-//     priority: "Medium"
-//   },
-//   {
-//     id: 4,
-//     title: "System Design Basics",
-//     description: "Learn about load balancing and caching",
-//     priority: "Medium"
-//   },
-//   {
-//     id: 5,
-//     title: "Mock Interview",
-//     description: "Practice coding interview questions for 1 hour",
-//     priority: "High"
-//   },
-//   {
-//     id: 6,
-//     title: "English Speaking Practice",
-//     description: "30 minutes English conversation practice",
-//     priority: "Low"
-//   }
-// ];
+import { useState } from "react";
+import "./Addtodo.css";
 
 function AddTodo() {
-
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     duedate: "",
-    priority: "low"
-  })
+    priority: "low",
+  });
 
-  const [Tasks,setTasks] = useState([])
+  const [tasks, setTasks] = useState([]);
 
+  // Handle Input Change
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
+  // Handle Submit
   const handleSubmit = (e) => {
-  e.preventDefault()
+    e.preventDefault();
 
-  const newTask = {
-    id: Date.now(),
-    ...formData
-  }
+    if (!formData.title.trim()) {
+      alert("Title is required!");
+      return;
+    }
 
-  setTasks(prev => [...prev, newTask])
-}
+    const newTask = {
+      id: Date.now(),
+      ...formData,
+    };
+
+    setTasks((prev) => [...prev, newTask]);
+
+    // Reset form
+    setFormData({
+      title: "",
+      description: "",
+      duedate: "",
+      priority: "low",
+    });
+  };
 
   return (
     <div className="container">
-      <h4>Add todo</h4>
+      <div className="card form-card">
+        <h2>Add Todo</h2>
 
-      <form onSubmit={handleSubmit} className="formData">
+        <form onSubmit={handleSubmit} className="formData">
+          <label>
+            Title
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+            />
+          </label>
 
-        <label htmlFor="title">
-          Title
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-          />
-        </label>
+          <label>
+            Description
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+            />
+          </label>
 
-        <label htmlFor="description">
-          Description
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-          />
-        </label>
+          <label>
+            Due Date
+            <input
+              type="date"
+              name="duedate"
+              value={formData.duedate}
+              onChange={handleChange}
+            />
+          </label>
 
-        <label htmlFor="duedate">
-          Due Date
-          <input
-            type="date"
-            id="duedate"
-            name="duedate"
-            value={formData.duedate}
-            onChange={handleChange}
-          />
-        </label>
+          <label>
+            Priority
+            <select
+              name="priority"
+              value={formData.priority}
+              onChange={handleChange}
+            >
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
 
-        <label htmlFor="priority">
-          Priority
-          <select
-            id="priority"
-            name="priority"
-            value={formData.priority}
-            onChange={handleChange}
-          >
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
-        </label>
+          <button type="submit">Add Task</button>
+        </form>
+      </div>
 
-        <button type="submit">Submit</button>
+      <div className="card todo-card">
+        <h2>Todo List</h2>
 
-      </form>
-
-       <div className="listoftodos">
-
-        <div className="listoftodosheader">
-          <h2>List of Todos</h2>
-        </div>
-
-        <ul className='listofitems'>
-        
-
-      {Tasks.map(Task => (
-      <li key={Task.id}>
-      <h3>{Task.title}</h3>
-      <p>{Task.description}</p>
-      <span>Priority:{Task.priority}</span>
-    </li>
-  ))}
-        </ul>
-
-
-
-       </div>
-
-
-
+        {tasks.length === 0 ? (
+          <p className="empty">No tasks added yet </p>
+        ) : (
+          <ul className="listofitems">
+            {tasks.map((task) => (
+              <TodoItem key={task.id} task={task} />
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
-  )
+  );
 }
 
-export default AddTodo
+// Separate Component (Cleaner Structure)
+function TodoItem({ task }) {
+  return (
+    <li className={`todo-item ${task.priority}`}>
+      <div className="todo-header">
+        <h3>{task.title}</h3>
+        <span className="priority">{task.priority}</span>
+      </div>
+
+      <p>{task.description}</p>
+
+      {task.duedate && (
+        <small>Due: {task.duedate}</small>
+      )}
+    </li>
+  );
+}
+
+export default AddTodo;
