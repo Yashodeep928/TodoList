@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Addtodo.css";
+import TodoItem from "./TodoItem";
 
 function AddTodo() {
   const [formData, setFormData] = useState({
@@ -11,7 +12,6 @@ function AddTodo() {
 
   const [tasks, setTasks] = useState([]);
 
-  // Handle Input Change
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -21,7 +21,7 @@ function AddTodo() {
     }));
   };
 
-  // Handle Submit
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -37,7 +37,7 @@ function AddTodo() {
 
     setTasks((prev) => [...prev, newTask]);
 
-    // Reset form
+    
     setFormData({
       title: "",
       description: "",
@@ -115,22 +115,6 @@ function AddTodo() {
   );
 }
 
-// Separate Component (Cleaner Structure)
-function TodoItem({ task }) {
-  return (
-    <li className={`todo-item ${task.priority}`}>
-      <div className="todo-header">
-        <h3>{task.title}</h3>
-        <span className="priority">{task.priority}</span>
-      </div>
 
-      <p>{task.description}</p>
-
-      {task.duedate && (
-        <small>Due: {task.duedate}</small>
-      )}
-    </li>
-  );
-}
 
 export default AddTodo;
