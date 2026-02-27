@@ -11,6 +11,7 @@ function AddTodo() {
   });
 
   const [tasks, setTasks] = useState([]);
+  const [editTask, setEditTask] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +22,9 @@ function AddTodo() {
     }));
   };
 
+const handleEdit = (task) => {
+  setEditTask(task);
+};
  
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -106,11 +110,42 @@ function AddTodo() {
         ) : (
           <ul className="listofitems">
             {tasks.map((task) => (
-              <TodoItem key={task.id} task={task} />
-            ))}
+  <TodoItem key={task.id} task={task} onEdit={handleEdit} />
+))}
           </ul>
         )}
       </div>
+
+      {editTask && (
+  <div className="edit-form">
+    <h2>Edit Task</h2>
+
+    <form>
+      <input
+        name="title"
+        value={editTask.title}
+      />
+
+      <textarea
+        name="description"
+        value={editTask.description}
+      />
+
+      <input
+        type="date"
+        name="duedate"
+        value={editTask.duedate}
+      />
+    </form>
+  </div>
+)}
+
+
+
+
+
+
+
     </div>
   );
 }

@@ -1,4 +1,7 @@
-function TodoItem({ task }) {
+
+
+function TodoItem({ task,onEdit }) {
+
   return (
 
       <li className={`todo-item ${task.priority}`}>
@@ -13,13 +16,21 @@ function TodoItem({ task }) {
         <small className="date">Due: {task.duedate}</small>
       )}
       <div className="button-group">
-         <button className="editBtn">Edit</button>
+      <button onClick={() => onEdit(task)} className="editBtn">
+ Edit
+</button>
       <button className="deleteBtn">Delete</button>
       <button className="completeBtn">Mark as Completed</button>
 
       </div>
+
+
+      
      
     </li>
+
+   
+      
 
     
     
